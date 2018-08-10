@@ -1,0 +1,9 @@
+Package: com.subdiox.sudo
+Name: sudo
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: sudo command, supporting electra jailbreak
+Maintainer: subdiox
+Author: subdiox
+Section: System
+Tag: role::hacker
