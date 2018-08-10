@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **envp) {
 		args[i] = strdup(i < 2 ? shc[i] : argv[i - 1]);
 	}
 
-  posix_spawn(&pid, "/bin/sh", NULL, NULL, (char* const*)args, NULL);
+	posix_spawn(&pid, "/bin/sh", NULL, NULL, (char* const*)args, NULL);
 	waitpid(pid, &status, 0);
 
 	return 0;
