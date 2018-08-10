@@ -18,7 +18,7 @@ void patch_setuid() {
 
 int main(int argc, char **argv, char **envp) {
 	if (argc == 1) {
-		fprintf(stdout, "Usage: %s [command]\n", argv[0]);
+		fprintf(stdout, "usage: %s [command] [args]\n", argv[0]);
 		return 0;
 	}
 
@@ -39,14 +39,17 @@ int main(int argc, char **argv, char **envp) {
 	int status;
 	pid_t pid;
 
-	const char *shc[] = {"sh", "-c"};
-	const char **args = (const char **)malloc((argc + 2) * sizeof(*args));
+	char *arg = (char *)malloc(sizeof(char) * (1 << 16));
 
-	for (size_t i = 0; i < argc + 1; ++i) {
-		args[i] = strdup(i < 2 ? shc[i] : argv[i - 1]);
+	for (int i = 1; i < argc - 1; i ++) {
+		strcat(arg, argv[i]);
+		strcat(arg, " ");
 	}
+	strcat(arg, argv[argc - 1]);
 
+	const char *args[] = {"sh", "-c", arg, NULL};
 	posix_spawn(&pid, "/bin/sh", NULL, NULL, (char* const*)args, NULL);
+
 	waitpid(pid, &status, 0);
 
 	return 0;
