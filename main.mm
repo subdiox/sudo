@@ -14,6 +14,11 @@ void patch_setuid() {
 	if (dlsym_error) return;
 
 	ptr(getpid());
+
+	setuid(0);
+	setgid(0);
+	setuid(0);
+	setgid(0);
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -25,13 +30,8 @@ int main(int argc, char **argv, char **envp) {
 	setuid(0);
 	if (getuid() != 0) {
 		patch_setuid();
-		setuid(0);
 	}
-	if (getuid() != 0) {
-		patch_setuid();
-		setuid(0);
-	}
-	if (getuid() != 0) {
+	if (getuid() != 0 || getgid() != 0) {
 		fprintf(stderr, "setuid(0) failed\n");
 		return 1;
 	}
